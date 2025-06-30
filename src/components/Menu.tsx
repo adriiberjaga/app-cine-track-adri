@@ -1,14 +1,14 @@
-import { useNavigate } from 'react-router';
-import { TbLogout } from 'react-icons/tb';
+import { useNavigate } from "react-router";
+import { TbLogout } from "react-icons/tb";
 
-import MenuLink from './MenuLink';
-import Button from './Button';
+import MenuLink from "./MenuLink";
+import Button from "./Button";
 
-import { useUserContext } from '../hooks/useUserContext';
+import { useUserContext } from "../hooks/useUserContext";
 
 interface Props {
   isHidden?: boolean;
-  direction?: 'horizontal' | 'vertical';
+  direction?: "horizontal" | "vertical";
 }
 
 export default function Menu(props: Props) {
@@ -16,17 +16,17 @@ export default function Menu(props: Props) {
 
   const navigate = useNavigate();
 
-  const { isHidden = false, direction = 'horizontal' } = props;
+  const { isHidden = false, direction = "horizontal" } = props;
 
-  const directionClasses = direction === 'vertical' ? 'flex-col' : '';
+  const directionClasses = direction === "vertical" ? "flex-col" : "";
 
-  const hiddenClasses = isHidden ? 'hidden md:flex' : 'flex';
+  const hiddenClasses = isHidden ? "hidden md:flex" : "flex";
 
   const classes = `items-center gap-4 ${directionClasses} ${hiddenClasses}`;
 
   function handleLogOut() {
     logOut();
-    navigate('/');
+    navigate("/");
   }
 
   return (
@@ -35,7 +35,6 @@ export default function Menu(props: Props) {
       {!user && <MenuLink href="/register">Registro</MenuLink>}
       {user && <MenuLink href="/my-movies">Mis películas</MenuLink>}
       {user && <MenuLink href="/profile">Perfil</MenuLink>}
-      {user && <MenuLink href="/movie">Detail</MenuLink>}
       {user && (
         <Button
           variant="secondary"

@@ -1,11 +1,11 @@
-import { useForm } from 'react-hook-form';
+import { useForm } from "react-hook-form";
 
-import Button from '../components/Button';
-import Input from '../components/Input';
-import Logo from '../components/Logo';
+import Button from "../components/Button";
+import Input from "../components/Input";
+import Logo from "../components/Logo";
 
-import { useUserContext } from '../hooks/useUserContext';
-import { useNavigate } from 'react-router';
+import { useUserContext } from "../hooks/useUserContext";
+import { useNavigate } from "react-router";
 
 interface LoginFormValues {
   email: string;
@@ -24,9 +24,9 @@ export default function LoginPage() {
     // Supuestamente hacemos una petición a un endpoint para validar el login y nos devuelve un usuario
     // Si el usuario existe, se establece el usuario en el contexto y se redirecciona a la página de perfil
 
-    const userDelBackend = { name: 'Ivan', email: 'ivan@gmail.com' };
+    const userDelBackend = { name: "Ivan", email: "ivan@gmail.com" };
     logIn(userDelBackend);
-    navigate('/my-movies');
+    navigate("/");
   }
   return (
     <div className="flex flex-col items-center">
@@ -40,11 +40,11 @@ export default function LoginPage() {
           type="email"
           placeholder="Email"
           errorMessage={errors.email?.message}
-          {...register('email', {
-            required: 'Email is required',
+          {...register("email", {
+            required: "Email is required",
             pattern: {
               value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-              message: 'Invalid email address',
+              message: "Invalid email address",
             },
           })}
         />
@@ -53,18 +53,18 @@ export default function LoginPage() {
           type="password"
           placeholder="Password"
           errorMessage={errors.password?.message}
-          {...register('password', {
-            required: 'Password is required',
+          {...register("password", {
+            required: "Password is required",
             pattern: {
               value: /^[a-zA-Z0-9]{8,16}$/,
-              message: 'Password must be 8-16 characters long',
+              message: "Password must be 8-16 characters long",
             },
           })}
         />
         <Button type="submit">Login</Button>
       </form>
       <p className="text-center text-sm">
-        You don't have an account? ,{' '}
+        You don't have an account? ,{" "}
         <a className="font-bold" href="/register">
           SignUp
         </a>

@@ -1,12 +1,12 @@
-import { useRef, useState } from 'react';
-import Button from '../components/Button';
-import Input from '../components/Input';
-import Logo from '../components/Logo';
+import { useState } from "react";
+import Button from "../components/Button";
+import Input from "../components/Input";
+import Logo from "../components/Logo";
 
 export default function LoginPage() {
   // const usernameRef = useRef<HTMLInputElement>(null);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   function handleUsernameChange(event: React.ChangeEvent<HTMLInputElement>) {
     setUsername(event.target.value);
@@ -45,7 +45,7 @@ export default function LoginPage() {
         <Button type="submit">Login</Button>
       </form>
       <p className="text-center text-sm">
-        You don't have an account? ,{' '}
+        You don't have an account? ,{" "}
         <a className="font-bold" href="/register">
           SignUp
         </a>

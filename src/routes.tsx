@@ -1,33 +1,33 @@
-import { createBrowserRouter, redirect } from 'react-router';
+import { createBrowserRouter, redirect } from "react-router";
 
-import MainLayout from './layouts/MainLayout';
-import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-import ProfilePage from './pages/ProfilePage';
-import MyMoviesPage from './pages/MyMoviesPage';
-import NotFoundPage from './pages/NotFoundPage';
+import MainLayout from "./layouts/MainLayout";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import ProfilePage from "./pages/ProfilePage";
+import MyMoviesPage from "./pages/MyMoviesPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
-import MovieDetailPage from './pages/MovieDetailPage';
-import { getItemFromLocalStorage } from './helpers/getUserFromLocalStorage';
-import type { User } from './config/types';
+import MovieDetailPage from "./pages/MovieDetailPage";
+import { getItemFromLocalStorage } from "./helpers/getUserFromLocalStorage";
+import type { User } from "./config/types";
 
 async function privateRouteLoader() {
-  const userLocalStorage = localStorage.getItem('movie-tracker-user');
+  const userLocalStorage = localStorage.getItem("movie-tracker-user");
   const user = userLocalStorage ? JSON.parse(userLocalStorage) : null;
 
   if (!user) {
-    return redirect('/login');
+    return redirect("/login");
   }
 
   return null;
 }
 
 async function publicRouteLoader() {
-  const user = getItemFromLocalStorage<User>('movie-tracker-user');
+  const user = getItemFromLocalStorage<User>("movie-tracker-user");
 
   if (user) {
-    return redirect('/my-movies');
+    return redirect("/my-movies");
   }
 
   return null;
@@ -35,7 +35,7 @@ async function publicRouteLoader() {
 
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <MainLayout />,
     children: [
       {
@@ -46,11 +46,11 @@ export const router = createBrowserRouter([
         loader: publicRouteLoader,
         children: [
           {
-            path: '/login',
+            path: "/login",
             element: <LoginPage />,
           },
           {
-            path: '/register',
+            path: "/register",
             element: <RegisterPage />,
           },
         ],
@@ -60,22 +60,22 @@ export const router = createBrowserRouter([
         loader: privateRouteLoader,
         children: [
           {
-            path: '/profile',
+            path: "/profile",
             element: <ProfilePage />,
           },
 
           {
-            path: '/my-movies',
+            path: "/my-movies",
             element: <MyMoviesPage />,
           },
           {
-            path: '/movie',
+            path: "/movie/:id",
             element: <MovieDetailPage />,
           },
         ],
       },
       {
-        path: '*',
+        path: "*",
         element: <NotFoundPage />,
       },
     ],
