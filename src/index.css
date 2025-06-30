@@ -1,0 +1,11 @@
+@import '@fontsource-variable/montserrat';
+@import '@fontsource-variable/roboto';
+@import "tailwindcss";
+
+@theme {
+  --font-montserrat: 'Montserrat Variable', sans-serif;
+  --font-roboto: 'Roboto Variable', sans-serif;
+  --color-blue: hsl(210, 100%, 50%);
+  --color-gray-light: hsl(0, 2%, 92%);
+  --color-gray-dark: hsl(0, 0%, 85%);
+}
