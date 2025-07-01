@@ -5,7 +5,6 @@ import type { Movie } from "../config/types";
 import MovieItem from "./MovieItem";
 import Heading from "./Heading";
 import MovieSkeleton from "./MovieSkeleton";
-import { useLocation } from "react-router";
 
 interface Props {
   movies: Movie[];
@@ -15,8 +14,7 @@ interface Props {
 
 export default function MovieListScroll(props: Props) {
   const { movies, sectionTitle, isLoading = false } = props;
-  const { state } = useLocation(); //location
-  console.log(state);
+
   // const skeletons = [1, 2, 3, 4, 5, 6]
   const skeletons = Array.from({ length: 6 }, (_, index) => index);
 

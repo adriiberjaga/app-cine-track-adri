@@ -10,18 +10,14 @@ import type { Movie } from "../config/types";
 import { useLocation, useParams } from "react-router";
 import { useEffect, useState } from "react";
 
-interface Props {
-  movie: Movie;
-}
-type videoProps = {
-  id: number;
-  key: string;
-};
-export default function MovieDetailPage(props: Props) {
+export default function MovieDetailPage() {
   const { id } = useParams();
   const [movie, setMovie] = useState<Movie | null>(null);
-  const { VITE_CLAVE_API: TOKEN } = import.meta.env;
+  const { VITE_CLAVE_API: TOKEN, VITE_TMDB_TOKEN: VIDEOTOKEN } = import.meta
+    .env;
   const { state } = useLocation();
+  const [video, setVideo] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!state) {
@@ -32,10 +28,36 @@ export default function MovieDetailPage(props: Props) {
             setMovie(null);
             return;
           }
+          setLoading(false);
           setMovie(data);
         });
+    } else {
+      setLoading(false);
+      setMovie(state);
     }
   }, [id]);
+  useEffect(() => {
+    fetch(`https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${VIDEOTOKEN}`,
+        accept: "application/json",
+      },
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        const firstTrailer = data.results.find(
+          (video: any) => video.type === "Trailer" && video.site === "YouTube"
+        );
+
+        if (firstTrailer) {
+          setVideo(firstTrailer.key); // Solo guardamos la key del video
+        } else {
+          setVideo(""); // fallback
+        }
+      });
+  }, [id]);
+  if (loading) return <div>Loading...</div>;
   return (
     <div className="flex flex-col items-center">
       <div className="flex justify-between items-center w-full">
@@ -59,11 +81,20 @@ export default function MovieDetailPage(props: Props) {
        w-full my-8 gap-32"
       >
         <div className="flex gap-4">
-          <img
-            src={`https://image.tmdb.org/t/p/w500${movie?.poster_path}`}
-            alt={`${movie?.title} Poster`}
-            className="w-64 rounded-xl"
-          />
+          {movie?.backdrop_path ? (
+            <img
+              src={`https://image.tmdb.org/t/p/w500${movie?.poster_path}`}
+              alt={`${movie?.title} Poster`}
+              className="w-64 rounded-xl"
+            />
+          ) : (
+            <img
+              src=""
+              alt={`${movie?.title} Poster`}
+              className="w-64 rounded-xl"
+            />
+          )}
+
           <div className="flex flex-col gap-4 py-4">
             <GenreList genres={["Action", "Thriller", "Drama"]} />
 
@@ -83,7 +114,7 @@ export default function MovieDetailPage(props: Props) {
         </div>
 
         <div>
-          <TrailerVideo videoId={movie?.id?.toString() ?? ""} />
+          <TrailerVideo videoId={video} />
         </div>
       </div>
     </div>
