@@ -9,7 +9,11 @@ interface Props {
 export default function MovieItem(props: Props) {
   const { movie } = props;
   return (
-    <Link to={`/movie/${movie.id}`} className="shrink-0 snap-start">
+    <Link
+      to={`/movie/${movie.id}`}
+      className="shrink-0 snap-start"
+      state={movie}
+    >
       <article
         key={movie.id}
         className=" max-w-md rounded-xl overflow-hidden relative group aspect-[2/3]"

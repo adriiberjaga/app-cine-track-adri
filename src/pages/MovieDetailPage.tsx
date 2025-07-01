@@ -7,30 +7,35 @@ import { FaImdb } from "react-icons/fa";
 import TrailerVideo from "../components/TrailerVideo";
 import { ImEyePlus } from "react-icons/im";
 import type { Movie } from "../config/types";
-import { useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 import { useEffect, useState } from "react";
 
 interface Props {
   movie: Movie;
 }
-
+type videoProps = {
+  id: number;
+  key: string;
+};
 export default function MovieDetailPage(props: Props) {
   const { id } = useParams();
   const [movie, setMovie] = useState<Movie | null>(null);
   const { VITE_CLAVE_API: TOKEN } = import.meta.env;
+  const { state } = useLocation();
 
   useEffect(() => {
-    fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${TOKEN}`)
-      .then((resp) => resp.json())
-      .then((data) => {
-        if (!data) {
-          setMovie(null);
-          return;
-        }
-        setMovie(data);
-      });
+    if (!state) {
+      fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${TOKEN}`)
+        .then((resp) => resp.json())
+        .then((data) => {
+          if (!data) {
+            setMovie(null);
+            return;
+          }
+          setMovie(data);
+        });
+    }
   }, [id]);
-
   return (
     <div className="flex flex-col items-center">
       <div className="flex justify-between items-center w-full">
