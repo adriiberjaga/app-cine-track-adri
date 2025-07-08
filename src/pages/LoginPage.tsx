@@ -34,7 +34,7 @@ export default function LoginPage() {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-7 mt-8 mb-2 w-sm"
+        className="flex flex-col gap-4 mt-8 mb-2 w-sm"
       >
         <Input
           type="email"

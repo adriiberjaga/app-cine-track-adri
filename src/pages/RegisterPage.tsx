@@ -1,13 +1,15 @@
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   registerSchema,
   type RegisterFormValues,
-} from '../schemas/userSchemas';
+} from "../schemas/userSchemas";
 
-import Button from '../components/Button';
-import Input from '../components/Input';
-import Logo from '../components/Logo';
+import Button from "../components/Button";
+import Input from "../components/Input";
+import Logo from "../components/Logo";
+import { useNavigate } from "react-router";
+import { useUserContext } from "../hooks/useUserContext";
 
 // interface RegisterFormValues {
 //   username: string;
@@ -17,15 +19,42 @@ import Logo from '../components/Logo';
 // }
 
 export default function RegisterPage() {
-  console.log('Register');
   const { register, handleSubmit, formState } = useForm<RegisterFormValues>({
-    mode: 'onChange',
+    mode: "onChange",
     resolver: zodResolver(registerSchema),
   });
 
   const { errors } = formState;
+  const navigate = useNavigate();
 
   function onSubmit(data: RegisterFormValues) {
+    //aqui mandamos  a expres
+    fetch("http://localhost:3000/users/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then(async (res) => {
+        if (!res.ok) {
+          const errorData = await res.json();
+          console.error("❌ Error al registrar:", errorData);
+          alert("Error: " + errorData.error || "No se pudo registrar.");
+          return;
+        }
+        const responseData = await res.json();
+        console.log("✅ Usuario registrado:", responseData);
+        alert("Usuario registrado correctamente");
+
+        ///////
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("❌ Error en la petición:", error);
+        alert("Error en la red o servidor");
+      });
+
     console.log(data);
   }
 
@@ -35,35 +64,35 @@ export default function RegisterPage() {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-7 mt-8 mb-2 w-sm"
+        className="flex flex-col gap-4 mt-8 mb-2 w-sm"
       >
         <Input
           placeholder="Username"
-          {...register('username')}
+          {...register("username")}
           errorMessage={errors.username?.message}
         />
         <Input
           placeholder="Email"
           type="email"
-          {...register('email')}
+          {...register("email")}
           errorMessage={errors.email?.message}
         />
         <Input
           placeholder="Password"
           type="password"
-          {...register('password')}
+          {...register("password")}
           errorMessage={errors.password?.message}
         />
         <Input
           placeholder="Confirm password"
           type="password"
-          {...register('confirmPassword')}
+          {...register("confirmPassword")}
           errorMessage={errors.confirmPassword?.message}
         />
         <Button type="submit">Register</Button>
       </form>
       <p className="text-center text-sm">
-        Already have an account? ,{' '}
+        Already have an account? ,{" "}
         <a className="font-bold" href="/login">
           Login
         </a>
