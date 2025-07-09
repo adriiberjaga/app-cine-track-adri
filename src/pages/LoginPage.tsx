@@ -23,10 +23,25 @@ export default function LoginPage() {
   function onSubmit(data: LoginFormValues) {
     // Supuestamente hacemos una petición a un endpoint para validar el login y nos devuelve un usuario
     // Si el usuario existe, se establece el usuario en el contexto y se redirecciona a la página de perfil
-
-    const userDelBackend = { name: "Ivan", email: "ivan@gmail.com" };
-    logIn(userDelBackend);
-    navigate("/");
+    fetch("http://localhost:3000/users/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }).then(async (res) => {
+      if (!res.ok) {
+        const errorData = await res.json();
+        console.error("❌ Error al iniciar sesion:", errorData);
+        alert("Error: " + errorData.error || "No se pudo iniciar sesion.");
+        return;
+      }
+      const responseData = await res.json();
+      console.log("✅ Usuario iniciado:", responseData);
+      alert("Usuario iniciado correctamente");
+      logIn(responseData);
+      navigate("/");
+    });
   }
   return (
     <div className="flex flex-col items-center">

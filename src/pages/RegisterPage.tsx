@@ -9,7 +9,6 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 import Logo from "../components/Logo";
 import { useNavigate } from "react-router";
-import { useUserContext } from "../hooks/useUserContext";
 
 // interface RegisterFormValues {
 //   username: string;

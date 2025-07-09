@@ -1,7 +1,6 @@
-import MovieList from '../components/MovieList';
-import MovieListScroll from '../components/MovieListScroll';
-import MovieSkeleton from '../components/MovieSkeleton';
-import { useMovies } from '../hooks/useMovies';
+import MovieList from "../components/MovieList";
+import MovieListScroll from "../components/MovieListScroll";
+import { useMovies } from "../hooks/useMovies";
 
 export default function HomePage() {
   // const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
@@ -17,11 +16,11 @@ export default function HomePage() {
   // }, []);
 
   const { movies: popularMovies, isLoading: areLoadingPopularMovies } =
-    useMovies('popular');
+    useMovies("popular");
   const { movies: upcomingMovies, isLoading: areLoadingUpcomingMovies } =
-    useMovies('upcoming');
+    useMovies("upcoming");
   const { movies: topMovies, isLoading: areLoadingTopMovies } = useMovies(
-    'top_rated?language=es-ES'
+    "top_rated?language=es-ES"
   );
 
   return (
