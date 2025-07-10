@@ -47,7 +47,7 @@ export default function RegisterPage() {
         alert("Usuario registrado correctamente");
 
         ///////
-        navigate("/");
+        navigate("/login");
       })
       .catch((error) => {
         console.error("❌ Error en la petición:", error);
