@@ -1,7 +1,18 @@
+import { useUserContext } from "../hooks/useUserContext";
+
 export default function ProfilePage() {
+  const { user, logOut } = useUserContext();
+  console.log(user);
   return (
-    <div className="flex flex-col items-center">
-      <h1 className="text-4xl font-bold">Perfil</h1>
+    <div>
+      {user ? (
+        <>
+          <p>Bienvenido, {user.username}</p>
+          <button onClick={logOut}>Cerrar sesión</button>
+        </>
+      ) : (
+        <p>No estás logueado.</p>
+      )}
     </div>
   );
 }

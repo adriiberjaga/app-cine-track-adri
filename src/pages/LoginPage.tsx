@@ -39,7 +39,11 @@ export default function LoginPage() {
       const responseData = await res.json();
       console.log("✅ Usuario iniciado:", responseData);
       alert("Usuario iniciado correctamente");
-      logIn(responseData);
+      localStorage.setItem(
+        "movie-tracker-user",
+        JSON.stringify(responseData.user)
+      );
+      logIn(responseData.user);
       navigate("/");
     });
   }
